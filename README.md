@@ -81,7 +81,7 @@ The simulation executes three distinct verification phases (Test case) :
 Ensure you have Icarus Verilog installed and added to your system PATH.
 
 ### 1. Clone the repository
-git clone [https://github.com/yourusername/8bit-Hardware-Adder-Subtractor.git](https://github.com/yourusername/8bit-Hardware-Adder-Subtractor.git)
+git clone [https://github.com/vietdungbodoi/8bit-Hardware-Adder-Subtractor.git](https://github.com/vietdungbodoi/8bit-Hardware-Adder-Subtractor.git)
 cd 8bit-Hardware-Adder-Subtractor
 
 ### 2. Compile Design and Testbench
