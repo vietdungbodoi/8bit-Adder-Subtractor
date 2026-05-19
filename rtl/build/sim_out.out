@@ -1,0 +1,91 @@
+#! /c/Source/iverilog-install/bin/vvp
+:ivl_version "12.0 (devel)" "(s20150603-1539-g2693dd32b)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision - 12;
+:vpi_module "C:\iverilog\lib\ivl\system.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_sys.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_textio.vpi";
+:vpi_module "C:\iverilog\lib\ivl\v2005_math.vpi";
+:vpi_module "C:\iverilog\lib\ivl\va_math.vpi";
+:vpi_module "C:\iverilog\lib\ivl\v2009.vpi";
+S_00000257901294e0 .scope package, "$unit" "$unit" 2 1;
+ .timescale 0 0;
+S_000002579012a890 .scope module, "tb_adder_subtractor_8bit" "tb_adder_subtractor_8bit" 3 3;
+ .timescale -9 -12;
+v0000025790133770_0 .var "A", 7 0;
+v00000257901331d0_0 .var "B", 7 0;
+v00000257901336d0_0 .net "Cout", 0 0, L_00000257901333b0;  1 drivers
+v00000257901339f0_0 .net "Result", 7 0, L_0000025790133270;  1 drivers
+v0000025790133810_0 .var "switch", 0 0;
+S_000002579012aa20 .scope module, "uut" "adder_subtractor_8bit" 3 13, 4 1 0, S_000002579012a890;
+ .timescale 0 0;
+    .port_info 0 /INPUT 8 "A";
+    .port_info 1 /INPUT 8 "B";
+    .port_info 2 /INPUT 1 "switch";
+    .port_info 3 /OUTPUT 8 "Result";
+    .port_info 4 /OUTPUT 1 "Cout";
+L_0000025790128450 .functor XOR 8, v00000257901331d0_0, L_0000025790133310, C4<00000000>, C4<00000000>;
+v0000025790102cc0_0 .net "A", 7 0, v0000025790133770_0;  1 drivers
+v000002579012abb0_0 .net "B", 7 0, v00000257901331d0_0;  1 drivers
+v00000257900aacd0_0 .net "B_mux", 7 0, L_0000025790128450;  1 drivers
+v00000257901024d0_0 .net "Cout", 0 0, L_00000257901333b0;  alias, 1 drivers
+v0000025790102570_0 .net "Result", 7 0, L_0000025790133270;  alias, 1 drivers
+v0000025790102610_0 .net *"_ivl_0", 7 0, L_0000025790133310;  1 drivers
+L_000002579017f9f8 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v00000257901026b0_0 .net *"_ivl_10", 0 0, L_000002579017f9f8;  1 drivers
+v0000025790102750_0 .net *"_ivl_11", 8 0, L_0000025790133bd0;  1 drivers
+L_000002579017fa40 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v00000257901027f0_0 .net *"_ivl_14", 0 0, L_000002579017fa40;  1 drivers
+v0000025790102890_0 .net *"_ivl_15", 8 0, L_0000025790133590;  1 drivers
+v000002579017f840_0 .net *"_ivl_17", 8 0, L_0000025790133630;  1 drivers
+L_000002579017fa88 .functor BUFT 1, C4<00000000>, C4<0>, C4<0>, C4<0>;
+v0000025790133f90_0 .net *"_ivl_20", 7 0, L_000002579017fa88;  1 drivers
+v0000025790133ef0_0 .net *"_ivl_21", 8 0, L_00000257901338b0;  1 drivers
+v0000025790133a90_0 .net *"_ivl_7", 8 0, L_0000025790133d10;  1 drivers
+v0000025790133e50_0 .net "switch", 0 0, v0000025790133810_0;  1 drivers
+LS_0000025790133310_0_0 .concat [ 1 1 1 1], v0000025790133810_0, v0000025790133810_0, v0000025790133810_0, v0000025790133810_0;
+LS_0000025790133310_0_4 .concat [ 1 1 1 1], v0000025790133810_0, v0000025790133810_0, v0000025790133810_0, v0000025790133810_0;
+L_0000025790133310 .concat [ 4 4 0 0], LS_0000025790133310_0_0, LS_0000025790133310_0_4;
+L_00000257901333b0 .part L_00000257901338b0, 8, 1;
+L_0000025790133270 .part L_00000257901338b0, 0, 8;
+L_0000025790133d10 .concat [ 8 1 0 0], v0000025790133770_0, L_000002579017f9f8;
+L_0000025790133bd0 .concat [ 8 1 0 0], L_0000025790128450, L_000002579017fa40;
+L_0000025790133590 .arith/sum 9, L_0000025790133d10, L_0000025790133bd0;
+L_0000025790133630 .concat [ 1 8 0 0], v0000025790133810_0, L_000002579017fa88;
+L_00000257901338b0 .arith/sum 9, L_0000025790133590, L_0000025790133630;
+    .scope S_000002579012a890;
+T_0 ;
+    %vpi_call/w 3 24 "$dumpfile", "simulation.vcd" {0 0 0};
+    %vpi_call/w 3 25 "$dumpvars", 32'sb00000000000000000000000000000000, S_000002579012a890 {0 0 0};
+    %pushi/vec4 11, 0, 8;
+    %store/vec4 v0000025790133770_0, 0, 8;
+    %pushi/vec4 1, 0, 8;
+    %store/vec4 v00000257901331d0_0, 0, 8;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0000025790133810_0, 0, 1;
+    %delay 10000, 0;
+    %pushi/vec4 11, 0, 8;
+    %store/vec4 v0000025790133770_0, 0, 8;
+    %pushi/vec4 1, 0, 8;
+    %store/vec4 v00000257901331d0_0, 0, 8;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0000025790133810_0, 0, 1;
+    %delay 10000, 0;
+    %pushi/vec4 50, 0, 8;
+    %store/vec4 v0000025790133770_0, 0, 8;
+    %pushi/vec4 25, 0, 8;
+    %store/vec4 v00000257901331d0_0, 0, 8;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0000025790133810_0, 0, 1;
+    %delay 10000, 0;
+    %vpi_call/w 3 46 "$display", "Simulation finished successfully!" {0 0 0};
+    %vpi_call/w 3 47 "$finish" {0 0 0};
+    %end;
+    .thread T_0;
+# The file index is used to find the file name in the following table.
+:file_names 5;
+    "N/A";
+    "<interactive>";
+    "-";
+    "tb_adder_subtractor_8bit.v";
+    "adder_subtractor_8bit.v";

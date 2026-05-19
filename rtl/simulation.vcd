@@ -1,0 +1,57 @@
+$date
+	Tue May 19 08:20:00 2026
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module tb_adder_subtractor_8bit $end
+$var wire 8 ! Result [7:0] $end
+$var wire 1 " Cout $end
+$var reg 8 # A [7:0] $end
+$var reg 8 $ B [7:0] $end
+$var reg 1 % switch $end
+$scope module uut $end
+$var wire 8 & A [7:0] $end
+$var wire 8 ' B [7:0] $end
+$var wire 8 ( B_mux [7:0] $end
+$var wire 1 % switch $end
+$var wire 8 ) Result [7:0] $end
+$var wire 1 " Cout $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+$end
+#0
+$dumpvars
+b1100 )
+b1 (
+b1 '
+b1011 &
+0%
+b1 $
+b1011 #
+0"
+b1100 !
+$end
+#10000
+1"
+b11111110 (
+b1010 !
+b1010 )
+1%
+#20000
+0"
+b11001 (
+b1001011 !
+b1001011 )
+0%
+b11001 $
+b11001 '
+b110010 #
+b110010 &
+#30000
