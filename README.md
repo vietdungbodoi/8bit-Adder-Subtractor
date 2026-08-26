@@ -16,7 +16,7 @@ Instead of instantiating separate adder and subtractor blocks along with an outp
 
 ## 2. RTL Verilog Design
 
-` ` `verilog
+```verilog
 module adder_subtractor_8bit (
     input  [7:0] A,
     input  [7:0] B,
@@ -32,7 +32,8 @@ module adder_subtractor_8bit (
     // Core arithmetic
     assign {Cout, Result} = A + B_mux + switch;
 endmodule
-` ` `
+```
+
 
 ## 3. Simulation & Verification
 
@@ -45,18 +46,19 @@ The logic was verified using an automated testbench (`tb_adder_subtractor_8bit.v
 ![Waveform Analysis](doc/simulation_waveform.png)
 
 **Toolchain:**
-*   Simulator: Icarus Verilog
-*   Waveform Viewer: WaveTrace / GTKWave
+*   Environment: Visual Studio Code
+*   Waveform Viewer: WaveTrace
 
 ### Quick Start / Run Simulation
 
-` ` `bash
-# 1. Compile the design
-iverilog -g2012 -s tb_adder_subtractor_8bit -o build/sim_out.out adder_subtractor_8bit.v tb_adder_subtractor_8bit.v
+ 1. Open the project folder in Visual Studio Code.
 
-# 2. Run simulation
-vvp build/sim_out.out
-` ` `
+ 2. Ensure you have your preferred Verilog and WaveTrace extensions installed.
+
+ 3. Open the testbench file (tb_adder_subtractor_8bit.v) and run the simulation using the VS Code integrated runner.
+
+ 4. Click on the generated .vcd file or use WaveTrace to visualize the timing diagrams.
+
 
 ---
-**Author:** Nguyen Huu Viet Dung
+**Author:** Nguyen Huu Viet Dung - K70 ET1 HUST.
