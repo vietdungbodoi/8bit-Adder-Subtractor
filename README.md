@@ -1,43 +1,22 @@
-# 8-Bit Optimized Ripple Carry Adder-Subtractor
+# 8-Bit Ripple Carry Adder-Subtractor
 
-A highly optimized 8-bit Hardware Adder-Subtractor unit implemented in both **Logisim (Gate-Level Design)** and **Verilog HDL (RTL Implementation)**. This project demonstrates the transition from fundamental digital logic to functional hardware description and simulation.
+Gate-level design and RTL implementation of an 8-bit Adder-Subtractor in Verilog. This project focuses on resource sharing by utilizing 2's complement arithmetic to merge addition and subtraction into a single data path.
 
-## 🚀 Hardware Optimization Highlight
-Instead of using a naive parallel architecture (1 dedicated Adder + 1 dedicated Subtractor + 1 Multiplexer), this design **merges both operations into a single execution path** using Bitwise XOR gates for 2's complement control.
+## 1. Hardware Architecture
 
-* **Resource Saving:** Reduced the number of required Full Adders by **50%** (8 Full Adders instead of 16).
-* **Silicon Footprint:** Significant reduction in gate count and routing complexity by eliminating the output 8-bit Multiplexer.
+Instead of instantiating separate adder and subtractor blocks along with an output multiplexer, the design optimizes logic gates using XOR operators.
 
----
+*   **Mode Control (`switch`):**
+    *   `0`: Addition Mode (Sum = A + B + 0)
+    *   `1`: Subtraction Mode (Sum = A + ~B + 1 = A - B)
+*   **Implementation:** The input `B` is XORed with the `switch` signal. In subtraction mode (`switch = 1`), the XOR gate acts as an inverter for `B`, and the `switch` signal is fed into the `Cin` of the first Full Adder to complete the `+1` requirement for 2's complement.
 
-## 🛠️ Hardware Architecture & Logic
+### Gate-level Schematic
+![Gate-Level Schematic](doc/schematic.png)
 
-The core logic relies on the properties of the XOR gate to dynamically control the input $B$ based on the operation mode (`switch`).
+## 2. RTL Verilog Design
 
-### Mathematical Formulation
-* **Control Input (`switch` / `ctrl`):**
-  * `0`: Addition Mode ($Sum = A + B + 0$)
-  * `1`: Subtraction Mode ($Sum = A + \sim B + 1 = A - B$)
-
-* **Hardware Mapping:**
-
-  $$B_{mux} = B \oplus \{8\{switch\}\}$$
-  
-  $$\{C_{out}, Result\} = A + B_{mux} + switch$$
-
-### 1. Gate-Level Design (Logisim)
-The architecture is built from a custom universal 1-bit cell (`Adder_Subtractor_1bit`) cascaded in a Ripple Carry chain.
-
-* **Bit 0 (LSB):** Takes the global `switch` signal into both its XOR control and its $C_{in}$ port to complete the $+1$ requirement for 2's complement subtraction.
-* **Bits 1-7:** Cascade the $C_{out}$ of the previous stage into the next stage's $C_{in}$.
-
-*(Place your Logisim schematic screenshot here)*
-`![Logisim Schematic](doc/schematic.png)`
-
-### 2. RTL Implementation (Verilog HDL)
-The hardware behavior is described in structural/dataflow Verilog:
-
-```verilog
+` ` `verilog
 module adder_subtractor_8bit (
     input  [7:0] A,
     input  [7:0] B,
@@ -46,56 +25,38 @@ module adder_subtractor_8bit (
     output       Cout
 );
     wire [7:0] B_mux;
-    assign B_mux = B ^ {8{switch}};
+    
+    // Invert B if switch == 1 (Subtraction)
+    assign B_mux = B ^ {8{switch}}; 
+    
+    // Core arithmetic
     assign {Cout, Result} = A + B_mux + switch;
 endmodule
-```
-## 🔬 Simulation & Waveform Analysis
-The design was verified using an automated testbench with Icarus Verilog and visualized using WaveTrace.
- ### Waveform breakdown
-The simulation executes three distinct verification phases (Test case) :
- 1. $0\text{ ns} \rightarrow 10\text{ ns}$ (Addition Test):
-    
-    Inputs: A = 0B (11), B = 01 (1), switch = 0
-    
-    Hardware: $B_{mux} = 01$
-    
-    Output: Result = 0C (12), Cout = 0
- 3. $10\text{ ns} \rightarrow 20\text{ ns}$ (Subtraction Test):
-    
-    Inputs: A = 0B (11), B = 01 (1), switch = 1
-    
-    Hardware: $B_{mux} = \text{FE}$ (inverted bits)Internal Math: $11 + 254 + 1 = 266$
-    
-    Output: Result = 0A (10), Cout = 1 (Overflow bit represents valid 2's complement subtraction carry).
- 5. $20\text{ ns} \rightarrow 30\text{ ns}$ (Alternative Addition Test):
-    
-    Inputs: A = 32 (50), B = 19 (25), switch = 0
-    
-    Output: Result = 4B (75), Cout = 0
+` ` `
 
-    ![Waveform Analysis](doc/simulation_waveform.png)
+## 3. Simulation & Verification
 
+The logic was verified using an automated testbench (`tb_adder_subtractor_8bit.v`) covering:
+*   Standard 8-bit addition.
+*   8-bit subtraction (verifying 2's complement wrapping).
+*   Carry-out (Overflow) validation.
 
-## 💻 How to Run the Simulation
-Ensure you have Icarus Verilog installed and added to your system PATH.
+### Waveform Analysis
+![Waveform Analysis](doc/simulation_waveform.png)
 
-### 1. Clone the repository
-git clone [https://github.com/vietdungbodoi/8bit-Hardware-Adder-Subtractor.git](https://github.com/vietdungbodoi/8bit-Hardware-Adder-Subtractor.git)
-cd 8bit-Hardware-Adder-Subtractor
+**Toolchain:**
+*   Simulator: Icarus Verilog
+*   Waveform Viewer: WaveTrace / GTKWave
 
-### 2. Compile Design and Testbench
+### Quick Start / Run Simulation
+
+` ` `bash
+# 1. Compile the design
 iverilog -g2012 -s tb_adder_subtractor_8bit -o build/sim_out.out adder_subtractor_8bit.v tb_adder_subtractor_8bit.v
 
-### 3. Execute Simulation to generate VCD file
+# 2. Run simulation
 vvp build/sim_out.out
+` ` `
 
-Open the generated simulation.vcd file using WaveTrace inside VS Code or via GTKWave to view the behavioral timing diagram.
-
-## 👨‍💻 Author
-Nguyễn Hữu Việt Dũng - Freshman at Hanoi University of Science and Technology (HUST).
-
-Focus: Integrated Circuit (IC) Design & Digital Systems Architecture.
-
-
- 
+---
+**Author:** Nguyen Huu Viet Dung
