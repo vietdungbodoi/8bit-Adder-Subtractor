@@ -25,11 +25,7 @@ module adder_subtractor_8bit (
     output       Cout
 );
     wire [7:0] B_mux;
-    
-    // Invert B if switch == 1 (Subtraction)
     assign B_mux = B ^ {8{switch}}; 
-    
-    // Core arithmetic
     assign {Cout, Result} = A + B_mux + switch;
 endmodule
 ```
